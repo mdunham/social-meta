@@ -1,6 +1,6 @@
 {
-    "name": "gourmet/social-meta",
-    "description": "Adds Facebook Open Graph and Twitter Cards support to CakePHP 3.x",
+    "name": "tscoder/social-meta",
+    "description": "Adds Facebook Open Graph and Twitter Cards support to CakePHP 3.x (TS Coders)",
     "type": "cakephp-plugin",
     "keywords": [
         "cakephp",
