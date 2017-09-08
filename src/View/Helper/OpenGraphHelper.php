@@ -41,6 +41,7 @@ class OpenGraphHelper extends Helper
     {
         $this->addNamespace('og', 'http://ogp.me/ns#');
         $this->addNamespace('fb', 'http://ogp.me/ns/fb#');
+        $this->addNamespace('article', 'http://ogp.me/ns/article#');
 
         if ($namespaces) {
             foreach ($namespaces as $ns => $url) {
@@ -158,6 +159,32 @@ class OpenGraphHelper extends Helper
     }
 
     /**
+     * Set URL. Instead of using uri, the tag here is og:url
+     * @param [type] $value     [description]
+     * @param string $namespace [description]
+     */
+    public function setUrl($value, $namespace = 'og')
+    {
+        return $this->addTag($namespace, 'url', Router::url($value, true));
+    }
+
+    /**
+     * Set Site Name.
+     *
+     * @param [type] $site_name [description]
+     * @param string $namespace [description]
+     */
+    public function setSiteName($site_name, $namespace = 'og')
+    {
+        return $this->addTag($namespace, 'site_name', $site_name);
+    }
+
+    public function setPublishedTime($ptime, $namespace = 'article')
+    {
+        return $this->addTag($namespace, 'published_time', $ptime);
+    }
+
+    /**
      * Magic method to handle calls to "set<Foo>" methods.
      *
      * @param string $tag Tag name
@@ -177,8 +204,16 @@ class OpenGraphHelper extends Helper
             case 'title':
             case 'description':
             case 'type':
+            case 'site_name':
                 if (count($args) < 2) {
                     $args[] = 'og';
+                }
+                list($value, $namespace) = $args;
+                return $this->addTag($namespace, $tag, $value);
+
+            case 'author':
+                if (count($args) < 2) {
+                    $args[] = 'article';
                 }
                 list($value, $namespace) = $args;
                 return $this->addTag($namespace, $tag, $value);
