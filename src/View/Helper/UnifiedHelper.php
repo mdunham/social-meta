@@ -6,7 +6,8 @@ use Cake\Log\Log;
 
 class UnifiedHelper extends Helper {
 
-	public $helpers = ['Card', 'OpenGraph'];
+	// public $helpers = ['Card', 'OpenGraph'];
+	public $helpers = ['Gourmet/SocialMeta.OpenGraph', 'Gourmet/SocialMeta.Card'];
 
 	// public $allTags = array();
 
