@@ -4,6 +4,7 @@ namespace Gourmet\SocialMeta\View\Helper;
 
 use Cake\Routing\Router;
 use Cake\View\Helper;
+use Cake\Log\Log;
 
 class OpenGraphHelper extends Helper
 {
@@ -49,13 +50,13 @@ class OpenGraphHelper extends Helper
             }
         }
 
-        $this->setType($this->config('type'));
-        $this->setUri($this->request->here);
-        $this->setTitle($this->_View->fetch('title'));
-
-        if ($appId = $this->config('app_id')) {
-            $this->setAppId($appId);
-        }
+        // $this->setType($this->config('type'));
+        // $this->setUri($this->request->here);
+        // $this->setTitle($this->_View->fetch('title'));
+        //
+        // if ($appId = $this->config('app_id')) {
+        //     $this->setAppId($appId);
+        // }
 
         return $this->Html->tag('html', null, $this->config('namespaces') + $options);
     }
@@ -88,6 +89,7 @@ class OpenGraphHelper extends Helper
      */
     public function addTag($namespace, $tag, $value, array $options = [])
     {
+        // Log::write(LOG_INFO, 'VVV '.$namespace.', '.$tag);
         $this->config("tags.$namespace.$tag", $options ? [$value, $options] : $value);
         return $this;
     }
