@@ -16,7 +16,11 @@ trait MetaTagAwareTrait
 
         foreach ((array)$this->config('tags') as $namespace => $values) {
             foreach ($values as $tag => $content) {
-                $property = "$namespace:$tag";
+
+                if ($namespace === 'ns_none')
+                  $property = "$tag";
+                else
+                  $property = "$namespace:$tag";
 
                 if (!is_array($content)) {
                     $this->Html->meta(null, null, compact('property', 'content', 'block'));
