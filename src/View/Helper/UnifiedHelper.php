@@ -39,32 +39,34 @@ class UnifiedHelper extends Helper {
 		return $this->__call('set'.$tagName, $all_args);
 	}
 
-	public function __call($tag, $args) {
+	public function __call($tag, $pArgs) {
 		if (strpos($tag, 'set') !== 0) {
-				return parent::__call($tag, $args);
+				return parent::__call($tag, $pArgs);
 		}
 
 		$newtag = strtolower(substr($tag, 3));
 
 		if (in_array($newtag, self::TAGS_TWITTER)) {
-			$args_twitter = $this->filter_options('twitter', $newtag, $args);
+			$args_twitter = $this->filter_options('twitter', $newtag, $pArgs);
 			$this->Card->{$tag}(...$args_twitter);
 			$tag_found = true;
 		}
 
 		if (in_array($newtag, self::TAGS_OG)) {
-			$this->OpenGraph->{$tag}(...$args);
+			if (count($pArgs) === 2)
+				array_splice($pArgs, 1, 0, [null]);
+			$this->OpenGraph->{$tag}(...$pArgs);
 			$tag_found = true;
 		}
 
 		// if (in_array($newtag, self::TAGS_GOOGLE_PLUS)) {
-		// 	$args_gplus = $this->change_namespace('google_plus', $newtag, $args);
+		// 	$args_gplus = $this->change_namespace('google_plus', $newtag, $pArgs);
 		// 	$this->OpenGraph->{$tag}(...$args_gplus);
 		// 	$tag_found = true;
 		// }
 
 		if (!$tag_found)
-			return parent::__call($tag, $args);
+			return parent::__call($tag, $pArgs);
 
 		return $this;
 	}

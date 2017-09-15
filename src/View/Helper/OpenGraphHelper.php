@@ -90,6 +90,8 @@ class OpenGraphHelper extends Helper
     public function addTag($namespace, $tag, $value, array $options = [])
     {
         // Log::write(LOG_INFO, 'VVV '.$namespace.', '.$tag);
+        if (empty($namespace))
+          $namespace = 'ns_none';
         $this->config("tags.$namespace.$tag", $options ? [$value, $options] : $value);
         return $this;
     }
@@ -208,16 +210,20 @@ class OpenGraphHelper extends Helper
             case 'type':
             case 'site_name':
                 if (count($args) < 2) {
-                    $args[] = 'og';
+                    $args[] = null;
                 }
                 list($value, $namespace) = $args;
+                if (empty($namespace))
+                  $namespace = 'og';
                 return $this->addTag($namespace, $tag, $value);
 
             case 'author':
                 if (count($args) < 2) {
-                    $args[] = 'article';
+                    $args[] = '';
                 }
                 list($value, $namespace) = $args;
+                if (empty($namespace))
+                  $namespace = 'article';
                 return $this->addTag($namespace, $tag, $value);
 
             case 'image':
@@ -227,9 +233,11 @@ class OpenGraphHelper extends Helper
                     $args[] = [];
                 }
                 if (count($args) < 3) {
-                    $args[] = 'og';
+                    $args[] = null;
                 }
                 list($value, $options, $namespace) = $args;
+                if (empty($namespace))
+                  $namespace = 'og';
                 return $this->addTag($namespace, $tag, $value, $options);
 
             default:
